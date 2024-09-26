@@ -6,7 +6,7 @@ from . import crud, schemas
 from dependencies import get_db
 
 
-router = APIRouter()
+router = APIRouter(tags=["City Operations"])
 
 
 def common_parameters(city_id: int, db: Session = Depends(get_db)):
@@ -30,7 +30,7 @@ def retrieve_cities(
     return crud.get_all_cities(db=db, skip=skip, limit=limit)
 
 
-@router.get("/cities/{city_id}/", response_model=schemas.City)
+@router.get("/cities/{city_id}/", response_model=schemas.City,)
 def get_city(common: dict = CommonDeps):
     return crud.get_existing_city(db=common["db"], city_id=common["city_id"])
 

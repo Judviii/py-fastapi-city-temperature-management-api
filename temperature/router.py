@@ -10,7 +10,7 @@ from city.models import City
 from dependencies import get_db
 
 
-router = APIRouter()
+router = APIRouter(tags=["Temperature Operations"])
 
 
 @router.post("/temperatures/update/", response_model=List[schemas.Tempereture])
