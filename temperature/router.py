@@ -1,7 +1,7 @@
 import asyncio
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
-from typing import List
+from typing import List, Optional
 
 from . import crud, schemas
 from temperature.utils import fetch_city_temperature
@@ -16,7 +16,7 @@ router = APIRouter(tags=["Temperature Operations"])
 @router.post("/temperatures/update/", response_model=List[schemas.Tempereture])
 async def update_temperatures(
     db: Session = Depends(get_db)
-):
+) -> List[schemas.Tempereture]:
     cities = db.query(City).all()
     tasks = []
 
@@ -46,7 +46,7 @@ def read_temperatures(
     limit: int = 10,
     city_id: int = Query(None),
     db: Session = Depends(get_db)
-):
+) -> Optional[List[schemas.Tempereture]]:
     if city_id:
         temperatures = crud.get_temperatures_by_city(
             db,

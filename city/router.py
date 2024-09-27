@@ -17,7 +17,10 @@ CommonDeps = Depends(common_parameters)
 
 
 @router.post("/cities/", response_model=schemas.City)
-def create_city(city: schemas.CityCreate, db: Session = Depends(get_db)):
+def create_city(
+    city: schemas.CityCreate,
+    db: Session = Depends(get_db)
+) -> schemas.City:
     return crud.create_city(db=db, city=city)
 
 
@@ -26,17 +29,20 @@ def retrieve_cities(
     skip: int = 0,
     limit: int = 10,
     db: Session = Depends(get_db)
-):
+) -> List[schemas.City]:
     return crud.get_all_cities(db=db, skip=skip, limit=limit)
 
 
 @router.get("/cities/{city_id}/", response_model=schemas.City,)
-def get_city(common: dict = CommonDeps):
+def get_city(common: dict = CommonDeps) -> schemas.City:
     return crud.get_existing_city(db=common["db"], city_id=common["city_id"])
 
 
 @router.put("/cities/{city_id}/", response_model=schemas.City)
-def update_city(city: schemas.CityUpdate, common: dict = CommonDeps):
+def update_city(
+    city: schemas.CityUpdate,
+    common: dict = CommonDeps
+) -> schemas.City:
     return crud.update_city(
         db=common["db"],
         city=city,
@@ -45,5 +51,5 @@ def update_city(city: schemas.CityUpdate, common: dict = CommonDeps):
 
 
 @router.delete("/cities/{city_id}/", response_model=schemas.City)
-def delete_city(common: dict = CommonDeps):
+def delete_city(common: dict = CommonDeps) -> schemas.City:
     return crud.delete_city(db=common["db"], city_id=common["city_id"])
